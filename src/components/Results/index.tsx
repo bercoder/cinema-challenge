@@ -1,15 +1,13 @@
+import { FC } from "react";
 import { IMovie, IPagination } from "../../types";
 
-import { useGenres } from "../../hooks/useGenres";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-import { FC, useState, useEffect } from "react";
 import {
 	SimpleGrid,
 	Box,
 	Heading,
-	Text,
-	CircularProgress,
-	useDisclosure,
 	Alert,
 	AlertIcon,
 	AlertTitle,
@@ -17,8 +15,8 @@ import {
 } from "@chakra-ui/react";
 
 import { Thumbnail } from "../Thumbnail";
-import { Detail } from "../Detail";
 import { Pagination } from "../Pagination";
+import { Loading } from "../Loading";
 
 type Props = {
 	loading: boolean;
@@ -39,21 +37,6 @@ export const Results: FC<Props> = ({
 	page,
 	changePage,
 }) => {
-	const [movieSelected, setMovieSelected] = useState<IMovie>({} as IMovie);
-
-	const { isOpen, onOpen, onClose } = useDisclosure();
-	const genres = useGenres();
-
-	useEffect(() => {
-		if (!movieSelected?.id) return;
-		onOpen();
-	}, [movieSelected, onOpen]);
-
-	function closeModal() {
-		setMovieSelected({} as IMovie);
-		onClose();
-	}
-
 	if (error) {
 		return (
 			<Box width="50%" marginInline="auto">
@@ -67,16 +50,7 @@ export const Results: FC<Props> = ({
 	}
 
 	if (loading) {
-		return (
-			<SimpleGrid my={5} placeItems="center">
-				<Box display="flex" gap={2} alignItems="center">
-					<CircularProgress size="30px" isIndeterminate color="red.300" />
-					<Text color="gray.600" fontSize="sm">
-						Loading movies...
-					</Text>
-				</Box>
-			</SimpleGrid>
-		);
+		return <Loading text="Loading movies..." />;
 	}
 
 	if (!loading && !movies.length)
@@ -102,27 +76,31 @@ export const Results: FC<Props> = ({
 			</Heading>
 
 			<Box>
-				<SimpleGrid minH="500px" className="movies" minChildWidth="200px" spacing="20px">
+				<SimpleGrid
+					minH="500px"
+					className="movies"
+					minChildWidth="200px"
+					spacing="20px"
+					as={motion.div}
+				>
 					{movies.map((movie, index) => (
-						<Thumbnail
+						<Link
 							key={movie.id}
-							poster={movie.poster_path}
-							title={movie.title}
-							onclick={() => setMovieSelected(movie)}
-							total={movies.length}
-							n={(page - 1) * 20 + index + 1}
-						/>
+							to={String(movie.id)}
+							style={
+								index === 0 && movies.length > 2 ? { gridArea: "1/1/3/3" } : {}
+							}
+						>
+							<Thumbnail
+								poster={movie.poster_path}
+								title={movie.title}
+								n={(page - 1) * 20 + index + 1}
+							/>
+						</Link>
 					))}
 				</SimpleGrid>
 				<Pagination data={pagination} page={page} changePage={changePage} />
 			</Box>
-
-			<Detail
-				genres={genres}
-				movie={movieSelected}
-				isOpen={isOpen}
-				onClose={closeModal}
-			/>
 		</>
 	);
 };

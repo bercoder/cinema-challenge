@@ -52,7 +52,7 @@ export const Rating: FC<Props> = ({
 						minW={size < 4 ? size * 1.9 : "35px"}
 						onClick={() => handleClick(index)}
 						key={index}
-						title={index === rating - 1 ? `Disable ${(index * 2)} - ${(index * 2 + 2)} filter` : `Set ${(index * 2)} - ${(index * 2 + 2)} stars`}
+						title={!!readOnly ? '' : index === rating - 1 ? `Disable ${(index * 2)} - ${(index * 2 + 2)} filter` : `Set ${(index * 2)} - ${(index * 2 + 2)} stars`}
 						onMouseEnter={(e) => {
 							if (!!readOnly || !!disabled) return;
 							const all = e.currentTarget.parentElement?.children;

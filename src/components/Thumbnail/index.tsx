@@ -6,24 +6,11 @@ type Props = {
 	n: number;
 	title?: string;
 	poster: string;
-	total: number;
-	onclick: () => void;
 };
 
-export const Thumbnail: React.FC<Props> = ({
-	n,
-	title,
-	poster,
-	total,
-	onclick,
-}) => {
+export const Thumbnail: React.FC<Props> = ({ n, title, poster }) => {
 	return (
-		<VStack
-			as="article"
-			gridArea={{ base: "", md: n === 1 && total > 2 ? "1 / 1 / 3 / 3" : "" }}
-			cursor="pointer"
-			onClick={onclick}
-		>
+		<VStack as="article" cursor="pointer">
 			<Box
 				role="group"
 				overflow="hidden"

@@ -1,20 +1,22 @@
-import { Discover } from './components/Discover';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
-
-import { Container } from '@chakra-ui/react'
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 import './App.css'
 
+import { Home } from './Pages/Home';
+import { Movie } from './Pages/Movie';
+
 function App() {
   return (
-    <>
-    <Header />
-    <Container maxWidth="container.lg">
-      <Discover />
-      <Footer />
-    </Container>
-    </>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/:id" element={<Movie />} />
+    </Routes>
+    </BrowserRouter>
   );
 }
 
