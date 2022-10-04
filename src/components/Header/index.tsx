@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Container, Heading, Text } from "@chakra-ui/react";
 
 const Title = () => (
 	<>
@@ -58,11 +58,12 @@ export const Header = () => {
 				<Box
 					width="100%"
 					pb={3}
-					px={8}
 					mb={5}
 					bgGradient="linear(to-l, #7928CA, #FF0080)"
 				>
-					<Title />
+					<Container maxWidth="container.lg">
+						<Title />
+					</Container>
 				</Box>
 			) : (
 				<Box
@@ -80,7 +81,9 @@ export const Header = () => {
 					justifyContent="center"
 					paddingLeft={10}
 				>
-					<Title />
+					<Container maxWidth="container.lg">
+						<Title />
+					</Container>
 				</Box>
 			)}
 		</>
